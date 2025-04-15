@@ -1,33 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState, useRef } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const drawSnake = (
+  ctx:CanvasRenderingContext2D,
+  snake: number[]
+) => {
+  ctx.fillStyle = "black";
+  ctx.fillRect(snake[0],snake[1],10,10);
+}
+
+const mainLoop = (
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
+  snake: number[],
+  setSnake: React.Dispatch<React.SetStateAction<number[]>>
+) => {
+  const canvas = canvasRef.current;
+  if (!canvas) {
+    throw new Error("failed to obtain canvas element");
+  };
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("failed to obtain canvas element");
+  };
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawSnake(ctx, snake)
+}
+
+const App = () => {
+  const [snake, setSnake] = useState([0, 0])
+  //const direction = useRef([1, 0])
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    mainLoop(
+      canvasRef,
+      snake,
+      setSnake
+    )
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <canvas ref={canvasRef} width="300" height="300"/>
     </>
   )
 }
