@@ -8,17 +8,11 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     devShell.${system} = pkgs.mkShell {
-      name = "wasm-game-of-life";
+      name = "danmyers.net";
       buildInputs = with pkgs; [
-      # dev
-        rustc
-        cargo
-        cargo-generate
-        nodejs
-        wasm-pack
-      # build
-        lld_19
-        typescript
+        bun
+        nodejs_23
+        tailwindcss
       ];
     };
   };
