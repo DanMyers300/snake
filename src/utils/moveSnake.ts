@@ -56,7 +56,7 @@ const moveSnake = (
 
         return next;
       });
-    }, 100); // You can keep this at 100ms for a classic feel
+    }, 100);
 
     return () => clearInterval(interval);
   }, [direction, fruit, setFruit, setSnake, canvasRef, step]);
