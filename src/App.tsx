@@ -11,10 +11,9 @@ type DirectionKey = keyof typeof DIRECTIONS;
 type Direction = typeof DIRECTIONS[DirectionKey];
 
 const App = () => {
-  const [snake, setSnake] = useState<[number, number]>([0, 0]);
+  const [snake, setSnake] = useState<[number, number]>([20, 20]);
   const [direction, setDirection] = useState<Direction>([1, 0]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setSnake((prev) => [
