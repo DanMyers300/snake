@@ -14,11 +14,27 @@ const App = () => {
   const [snake, setSnake] = useState<[number, number]>([20, 20]);
   const [direction, setDirection] = useState<Direction>([1, 0]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setSnake((prev) => [
-        prev[0] + direction[0], prev[1] + direction[1],
-      ]);
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      setSnake((prev) => {
+        const next = [prev[0] + direction[0], prev[1] + direction[1]] as [number, number];
+        // Check bounds
+        if (
+          next[0] < 0 ||
+          next[0] + 10 > canvas.width ||
+          next[1] < 0 ||
+          next[1] + 10 > canvas.height
+        ) {
+          // Optionally, stop the game or do nothing
+          return prev; // Don't move
+        }
+        return next;
+      });
     }, 16);
 
     return () => clearInterval(interval);
