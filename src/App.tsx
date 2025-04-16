@@ -23,14 +23,13 @@ const App = () => {
       if (!ctx) return;
       setSnake((prev) => {
         const next = [prev[0] + direction[0], prev[1] + direction[1]] as [number, number];
-        // Check bounds
         if (
           next[0] < 0 ||
           next[0] + 10 > canvas.width ||
           next[1] < 0 ||
           next[1] + 10 > canvas.height
         ) {
-          // Optionally, stop the game or do nothing
+          alert("Game Over");
           return prev; // Don't move
         }
         return next;
